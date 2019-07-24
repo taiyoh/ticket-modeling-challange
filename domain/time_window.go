@@ -34,18 +34,18 @@ const (
 type hourType int
 
 const (
-	daylight hourType = iota + 1
-	lateshow
+	daytime hourType = iota + 1
+	nighttime
 )
 
 var typeByDayAndHour = map[dayType]map[hourType]TimeWindowType{
 	weekday: map[hourType]TimeWindowType{
-		daylight: WeekDayDayTime,
-		lateshow: WeekDayNightTime,
+		daytime:   WeekDayDayTime,
+		nighttime: WeekDayNightTime,
 	},
 	holiday: map[hourType]TimeWindowType{
-		daylight: HolidayDayTime,
-		lateshow: HolidayNightTime,
+		daytime:   HolidayDayTime,
+		nighttime: HolidayNightTime,
 	},
 }
 
@@ -59,9 +59,9 @@ func (w TimeWindow) dayType() dayType {
 
 func (w TimeWindow) hourType() hourType {
 	if w.t.Hour() < 20 {
-		return daylight
+		return daytime
 	}
-	return lateshow
+	return nighttime
 }
 
 // Type calculates TimeWindowType by supplied time.
