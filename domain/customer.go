@@ -1,12 +1,12 @@
 package domain
 
-// Customer represents person who comes to watch the movie.
-type Customer struct {
+// Audience represents person who comes to watch the movie.
+type Audience struct {
 	segmentType PriceSegmentType
 }
 
-// CustomerGroup represents target persons for each billing.
-type CustomerGroup []Customer
+// AudienceGroup represents target persons for each billing.
+type AudienceGroup []Audience
 
 type segTypeCount map[PriceSegmentType]int
 
@@ -44,35 +44,35 @@ func newSegTypeCount(types []PriceSegmentType) segTypeCount {
 	return counts
 }
 
-// NewCustomerGroup returns CustomerGroup object with segment type attached.
-func NewCustomerGroup(num int, types []PriceSegmentType) CustomerGroup {
-	customers := make(CustomerGroup, 0, num)
+// NewAudienceGroup returns AudienceGroup object with segment type attached.
+func NewAudienceGroup(num int, types []PriceSegmentType) AudienceGroup {
+	audiences := make(AudienceGroup, 0, num)
 	counts := newSegTypeCount(types)
 	for _, pair := range counts.detectSpecifieds() {
 		count := pair.totalCount()
 		for i := 0; i < count; i++ {
-			customers = customers.Add(pair.typ)
+			audiences = audiences.Add(pair.typ)
 			if num--; num < 1 {
-				return customers
+				return audiences
 			}
 		}
 	}
 
 	typ := counts.detectWhole()
 	for i := 0; i < num; i++ {
-		customers = customers.Add(typ)
+		audiences = audiences.Add(typ)
 	}
 
-	return customers
+	return audiences
 }
 
-// Add provides new CustomerGroup with new Customer.
-func (g CustomerGroup) Add(t PriceSegmentType) CustomerGroup {
-	return append(g, Customer{t})
+// Add provides new AudienceGroup with new Audience.
+func (g AudienceGroup) Add(t PriceSegmentType) AudienceGroup {
+	return append(g, Audience{t})
 }
 
 // Amount provides calculating total price of this group.
-func (g CustomerGroup) Amount(tw TimeWindow) Price {
+func (g AudienceGroup) Amount(tw TimeWindow) Price {
 	p := Price(0)
 	for _, th := range g {
 		seg := NewPriceSegment(th.segmentType)

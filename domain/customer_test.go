@@ -7,7 +7,7 @@ import (
 	"github.com/taiyoh/movie-ticket/domain"
 )
 
-func TestCustomerGroup(t *testing.T) {
+func TestAudienceGroup(t *testing.T) {
 	ja, _ := time.LoadLocation("Asia/Tokyo")
 
 	for _, tt := range []struct {
@@ -29,7 +29,7 @@ func TestCustomerGroup(t *testing.T) {
 	} {
 		t.Run(tt.label, func(t *testing.T) {
 			tw := domain.NewTimeWindow(tt.time, tt.holiday)
-			grp := domain.NewCustomerGroup(tt.num, tt.types)
+			grp := domain.NewAudienceGroup(tt.num, tt.types)
 			if am := grp.Amount(tw); am != tt.amount {
 				t.Errorf("wrong amouth calculated: %v", am)
 			}
