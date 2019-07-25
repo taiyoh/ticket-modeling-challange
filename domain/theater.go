@@ -11,25 +11,38 @@ type TheaterGroup []Theater
 type segTypeCount map[PriceSegmentType]int
 
 var highPriorities = []PriceSegmentType{
+	DisabilityYoungerSegmentType,
+	DisabilityElderSegmentType,
+	ElementalySchoolStudentSegmentType,
+	HighSchoolStudentSegmentType,
 	CinemaCitizenSegmentType,
 	CinemaCitizenElderSegmentType,
 	SeniorSegmentType,
 	CollageStudentSegmentType,
-	HighSchoolStudentSegmentType,
-	ElementalySchoolStudentSegmentType,
-	DisabilityElderSegmentType,
-	DisabilityYoungerSegmentType,
 	MICardSegmentType,
 }
 
-func (s segTypeCount) highPriorities() segTypeCount {
-	clones := segTypeCount{}
+type segTypeCountPair struct {
+	typ   PriceSegmentType
+	count int
+}
+
+func (p segTypeCountPair) totalCount() int {
+	return p.typ.targetCount() * p.count
+}
+
+func (p segTypeCountPair) newTheater() Theater {
+	return Theater{p.typ}
+}
+
+func (s segTypeCount) highPriorities() []segTypeCountPair {
+	pairs := []segTypeCountPair{}
 	for _, t := range highPriorities {
 		if c, exists := s[t]; exists {
-			clones[t] = c
+			pairs = append(pairs, segTypeCountPair{t, c})
 		}
 	}
-	return clones
+	return pairs
 }
 
 func (s segTypeCount) normalPriority() PriceSegmentType {
@@ -49,14 +62,13 @@ func newSegTypeCount(types []PriceSegmentType) segTypeCount {
 
 // NewTheaterGroup returns TheaterGroup object with segment type attached.
 func NewTheaterGroup(num int, types []PriceSegmentType) TheaterGroup {
-	theaters := TheaterGroup{}
+	theaters := make(TheaterGroup, 0, num)
 	counts := newSegTypeCount(types)
-	for t, c := range counts.highPriorities() {
-		count := t.targetCount() * c
+	for _, pair := range counts.highPriorities() {
+		count := pair.totalCount()
 		for i := 0; i < count; i++ {
-			theaters = append(theaters, Theater{t})
-			num--
-			if num < 1 {
+			theaters = append(theaters, pair.newTheater())
+			if num--; num < 1 {
 				return theaters
 			}
 		}
