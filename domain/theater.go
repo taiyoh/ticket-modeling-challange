@@ -79,5 +79,5 @@ func NewTheaterGroup(num int, types []PriceSegmentType) TheaterGroup {
 		theaters = append(theaters, Theater{typ})
 	}
 
-	return []Theater{}
+	return theaters
 }
