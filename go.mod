@@ -1,3 +1,3 @@
-module github.com/taiyoh/movie-ticket
+module github.com/taiyoh/ticket-modeling-challange
 
 go 1.12

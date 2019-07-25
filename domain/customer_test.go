@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/taiyoh/movie-ticket/domain"
+	"github.com/taiyoh/ticket-modeling-challange/domain"
 )
 
 func TestAudienceGroup(t *testing.T) {
