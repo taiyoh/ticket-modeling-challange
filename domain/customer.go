@@ -76,7 +76,8 @@ func (g AudienceGroup) Amount(tw TimeWindow) Price {
 	p := Price(0)
 	for _, th := range g {
 		seg := NewPriceSegment(th.segmentType)
-		p = p.Add(seg.Calculate(tw))
+		calc := seg.Calculate(tw)
+		p = p.Add(calc)
 	}
 	return p
 }

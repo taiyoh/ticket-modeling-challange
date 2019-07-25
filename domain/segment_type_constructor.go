@@ -25,7 +25,7 @@ func newHighSchoolStudentSegment() PriceSegment {
 }
 
 func newElementalySchoolStudentSegment() PriceSegment {
-	return PriceSegment{ElementalySchoolStudentSegmentType, 1500, 1300, 1500, 1300, 1100}
+	return PriceSegment{ElementalySchoolStudentSegmentType, 1000, 1000, 1000, 1000, 1000}
 }
 
 func newDisabilityElderSegment() PriceSegment {

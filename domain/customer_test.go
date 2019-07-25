@@ -26,6 +26,18 @@ func TestAudienceGroup(t *testing.T) {
 			[]domain.PriceSegmentType{},
 			1800 * 3,
 		},
+		{
+			"holiday: daytime, 5, 1 younger disability, 1 elementary, use parking",
+			time.Date(2019, time.Month(7), 15, 13, 0, 0, 0, ja),
+			true,
+			5,
+			[]domain.PriceSegmentType{
+				domain.DisabilityYoungerSegmentType,
+				domain.ElementalySchoolStudentSegmentType,
+				domain.ParkingSegmentType,
+			},
+			(900 * 2) + 1000 + 1400 + 1400, // 5600 ?
+		},
 	} {
 		t.Run(tt.label, func(t *testing.T) {
 			tw := domain.NewTimeWindow(tt.time, tt.holiday)
