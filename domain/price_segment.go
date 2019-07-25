@@ -31,6 +31,13 @@ const (
 	ParkingSegmentType
 )
 
+func (t PriceSegmentType) targetCount() int {
+	if t == DisabilityElderSegmentType || t == DisabilityYoungerSegmentType {
+		return 2
+	}
+	return 1
+}
+
 type priceSegmentBase struct {
 	wd Price
 	wn Price
